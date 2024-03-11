@@ -1,4 +1,4 @@
-import type { LinksFunction } from "@remix-run/node";
+import stylesheet from "~/styles/globals.css";
 import {
   Links,
   LiveReload,
@@ -7,11 +7,9 @@ import {
   Scripts,
   ScrollRestoration,
 } from "@remix-run/react";
-import stylesheet from "~/styles/globals.css";
+import type { LinksFunction } from "@remix-run/node";
 
-export const links: LinksFunction = () => [
-  { rel: "stylesheet", href: stylesheet },
-];
+// TODO: Fix styles by adding a global stylesheet
 
 export default function App() {
   return (
@@ -33,3 +31,5 @@ export default function App() {
     </html>
   );
 }
+
+// TODO: Handle 404s using ErrorBoundary

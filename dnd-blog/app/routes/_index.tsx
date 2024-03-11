@@ -21,17 +21,12 @@ type LoaderData = {
   latestArticles: ArticleWithAuthor[];
 };
 
-export const loader: LoaderFunction = async () => {
-  const articles = await getArticles();
-  const latestArticles = await getLatestArticles();
-
-  return json({ articles, latestArticles });
-}
+// TODO: Using a loader function to fetch the articles and latest articles
 
 const categories = ["Category", "Category", "Category", "Category", "Category"];
 
 export default function Index() {
-  const { articles, latestArticles } = useLoaderData<LoaderData>();
+  // TODO: Use the useLoaderData hook to get the articles and latest articles
 
   return (
     <>
@@ -57,17 +52,13 @@ export default function Index() {
             </Link>
           </div>
           <div className="grid grid-cols-3 gap-16">
-            {articles.map((article, idx) => (
-              <PopularCard key={idx} {...article} author={article.author.name} />
-            ))}
+            {/* TODO: Render the popular topics using the PopularCard component */}
           </div>
         </Section>
         <NewsletterCard />
         <Section title="Latest Articles">
           <div className="flex flex-col gap-10 mb-10">
-            {latestArticles.map((article, idx) => (
-              <ArticleCard key={idx} {...article} author={article.author.name} />
-            ))}
+            {/* TODO: Render the latest articles using the ArticleCard component */}
           </div>
           <div className="flex flex-col items-center">
             <Button>View All</Button>

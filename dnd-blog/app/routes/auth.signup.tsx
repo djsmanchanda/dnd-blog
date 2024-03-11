@@ -1,6 +1,6 @@
 import Button from "~/components/button";
 import Input from "~/components/input";
-import { getUserEmail, login } from "~/utils/session.server";
+import { getUserEmail, signUp } from "~/utils/session.server";
 import { Form, Link } from "@remix-run/react";
 import { redirect } from "@remix-run/node";
 import type { ActionFunction, LoaderFunction } from "@remix-run/node";
@@ -18,49 +18,54 @@ export const loader: LoaderFunction = async ({ request }) => {
 export const action: ActionFunction = async ({ request }) => {
   const formData = await request.formData();
 
+  const name = formData.get("name");
+  const username = formData.get("username");
   const email = formData.get("email");
   const password = formData.get("password");
 
-  if (!email || !password) {
-    return { success: false, error: "Invalid email or password" };
-  }
-
-  if (typeof email !== "string" || typeof password !== "string") {
+  if (!name || !username || !email || !password) {
     return { success: false, error: "Invalid input" };
   }
 
-  return await login(email, password);
+  if (
+    typeof name !== "string" ||
+    typeof username !== "string" ||
+    typeof email !== "string" ||
+    typeof password !== "string"
+  ) {
+    return { success: false, error: "Invalid input" };
+  }
+
+  return await signUp(name, username, email, password);
 };
 
-export default function Login() {
+export default function SignUp() {
   return (
     <main className="flex flex-col justify-center items-center h-screen gap-7">
       <div className="flex flex-col items-center gap-7">
         <h1 className="text-2xl self-center">Welcome!</h1>
         <Form
-          className="flex flex-col gap-5 border border-black p-5 rounded-md bg-gray-100 w-80"
+          className="flex flex-col gap-5 border border-black p-5 rounded-md bg-gray-100"
           method="POST"
         >
-          <Button>Authorize with Google</Button>
-          <div className="border-t border-black" />
           <Input name="email" label="Email" type="email" placeholder="Email" />
+          <Input name="name" label="Name" type="text" placeholder="Name" />
+          <Input
+            name="username"
+            label="Username"
+            type="text"
+            placeholder="Username"
+          />
           <Input
             name="password"
             label="Password"
             type="password"
             placeholder="Password"
           />
-          <div className="flex justify-between">
-            <label className="flex gap-2">
-              <input type="checkbox" />
-              Remember me
-            </label>
-            <p>Forgot password?</p>
-          </div>
-          <Button type="submit" fullWidth>Login</Button>
+          <Button type="submit" fullWidth>Sign up</Button>
         </Form>
-        <Link to="/auth/signup" className="text-sm">
-          Don't have an account? Sign up
+        <Link to="/auth/login" className="text-sm">
+          Already have an account? Login
         </Link>
       </div>
     </main>
